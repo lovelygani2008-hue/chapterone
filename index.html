@@ -1,0 +1,1216 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>ChapterOne | Online Bookstore</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <!-- Top Offer Announcement Bar -->
+  <div class="offer-strip">
+    <span>Festive Reading Sale: Use code <strong>READ20</strong> for 20% OFF or <strong>STUDENT15</strong> for 15% OFF | Free Delivery on orders above ₹499</span>
+  </div>
+
+  <!-- Navigation Bar -->
+  <header class="navbar">
+    <div class="container nav-content">
+      <a href="#home" class="logo">
+        <span class="logo-icon">📚</span>
+        <span class="logo-text">Chapter<span>One</span></span>
+      </a>
+
+      <!-- Live Search Bar -->
+      <div class="search-box">
+        <input
+          type="text"
+          id="searchInput"
+          placeholder="Search books, authors, manga..."
+          aria-label="Search books"
+        />
+        <button id="clearSearchBtn" class="clear-search" title="Clear search" hidden>&times;</button>
+      </div>
+
+      <!-- Navigation Links -->
+      <nav class="nav-links" id="navLinks">
+        <a href="#categories">Categories</a>
+        <a href="#featured">Featured</a>
+        <a href="#offers">Offers</a>
+        <a href="#shop">Shop</a>
+        <a href="#authors">Authors</a>
+      </nav>
+
+      <!-- Action Buttons -->
+      <div class="nav-actions">
+        <button class="icon-btn" id="themeToggle" title="Switch Light/Dark Mode" aria-label="Toggle Dark Mode">
+          🌙
+        </button>
+        <button class="icon-btn" id="wishlistFilterBtn" title="View Wishlist" aria-label="View Wishlist">
+          ❤️ <span class="badge" id="wishlistCount">0</span>
+        </button>
+        <button class="cart-btn" id="openCartBtn" aria-label="Open Shopping Cart">
+          🛒 Cart <span class="badge" id="cartCount">0</span>
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <!-- Hero Section -->
+  <section class="hero" id="home">
+    <div class="container hero-grid">
+      <div class="hero-text">
+        <span class="hero-pill">India's Curated Online Bookstore</span>
+        <h1>Stories That Stay With You Forever.</h1>
+        <p>
+          Explore handpicked Action thrillers, Anime &amp; Manga volumes, timeless Romance,
+          Sci-Fi epics, Mystery page-turners, and Self-Help bestsellers — delivered right to your door.
+        </p>
+        <div class="hero-buttons">
+          <a href="#shop" class="btn btn-primary">Explore All Books</a>
+          <a href="#offers" class="btn btn-outline">Today's Offers</a>
+        </div>
+        <div class="hero-stats">
+          <div><strong>14+</strong><span>Top Titles</span></div>
+          <div><strong>6</strong><span>Genres</span></div>
+          <div><strong>20%</strong><span>Max Coupon Off</span></div>
+        </div>
+      </div>
+
+      <!-- Hero Featured Deal Card -->
+      <div class="hero-showcase">
+        <div class="deal-card">
+          <span class="deal-tag">Deal of the Day</span>
+          <div class="book-cover-3d" style="--cover-bg: linear-gradient(135deg, #7f1d1d, #dc2626); --spine-color: #450a0a;">
+            <span class="cover-genre">ANIME &amp; MANGA</span>
+            <h3>Demon Slayer</h3>
+            <p>Vol. 1: Cruelty</p>
+            <span class="cover-author">Koyoharu Gotouge</span>
+          </div>
+          <div class="deal-info">
+            <div>
+              <span class="price-now">₹499</span>
+              <span class="price-old">₹699</span>
+              <span class="discount-pill">29% OFF</span>
+            </div>
+            <button class="btn btn-primary btn-sm" onclick="addToCart(1)">Add to Cart</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Special Offers Section -->
+  <section class="section" id="offers">
+    <div class="container">
+      <div class="section-header">
+        <div>
+          <h2>Exclusive Offers &amp; Deals</h2>
+          <p>Click any offer to copy the coupon or jump straight to discounted books.</p>
+        </div>
+      </div>
+
+      <div class="offers-grid">
+        <div class="offer-card offer-orange">
+          <span class="offer-badge">LIMITED TIME</span>
+          <h3>Flat 20% Extra Off</h3>
+          <p>Applicable on your entire cart. Enter coupon code at checkout.</p>
+          <div class="offer-footer">
+            <code>READ20</code>
+            <button class="btn-offer" onclick="applyCouponQuick('READ20')">Apply Code</button>
+          </div>
+        </div>
+
+        <div class="offer-card offer-indigo">
+          <span class="offer-badge">MANGA MANIA</span>
+          <h3>Up to 30% Off Anime &amp; Manga</h3>
+          <p>Demon Slayer, Solo Leveling, Jujutsu Kaisen &amp; One Piece volumes.</p>
+          <div class="offer-footer">
+            <span>Best Editions</span>
+            <button class="btn-offer" onclick="filterByCategory('Anime & Manga', true)">Shop Manga</button>
+          </div>
+        </div>
+
+        <div class="offer-card offer-emerald">
+          <span class="offer-badge">COLLEGE SPECIAL</span>
+          <h3>15% Student Discount</h3>
+          <p>Save extra on Self-Help, Fiction, and weekend reads with student code.</p>
+          <div class="offer-footer">
+            <code>STUDENT15</code>
+            <button class="btn-offer" onclick="applyCouponQuick('STUDENT15')">Apply Code</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Categories Showcase Section -->
+  <section class="section section-alt" id="categories">
+    <div class="container">
+      <div class="section-header">
+        <div>
+          <h2>Browse by Category</h2>
+          <p>Pick a genre to filter our bookstore catalogue instantly.</p>
+        </div>
+      </div>
+
+      <div class="categories-grid" id="categoryCards">
+        <!-- Populated dynamically by JS -->
+      </div>
+    </div>
+  </section>
+
+  <!-- Featured Books Section -->
+  <section class="section" id="featured">
+    <div class="container">
+      <div class="section-header">
+        <div>
+          <h2>Featured Bestsellers</h2>
+          <p>Reader favourites with top ratings and special discounts.</p>
+        </div>
+        <a href="#shop" class="text-link">View Full Catalogue →</a>
+      </div>
+
+      <div class="books-grid" id="featuredGrid">
+        <!-- Populated dynamically by JS -->
+      </div>
+    </div>
+  </section>
+
+  <!-- Main Shopping Section -->
+  <section class="section section-alt" id="shop">
+    <div class="container">
+      <div class="section-header">
+        <div>
+          <h2>Shopping Section</h2>
+          <p id="shopSubtitle">Showing all books across every genre.</p>
+        </div>
+
+        <!-- Sort & Filter Controls -->
+        <div class="shop-controls">
+          <select id="sortSelect" aria-label="Sort books">
+            <option value="default">Sort: Featured</option>
+            <option value="price-low">Price: Low to High</option>
+            <option value="price-high">Price: High to Low</option>
+            <option value="rating">Top Rated</option>
+          </select>
+        </div>
+      </div>
+
+      <!-- Category Filter Pills -->
+      <div class="filter-pills" id="filterPills">
+        <!-- Populated dynamically by JS -->
+      </div>
+
+      <!-- Books Grid -->
+      <div class="books-grid" id="booksGrid">
+        <!-- Populated dynamically by JS -->
+      </div>
+
+      <!-- Empty State -->
+      <div class="empty-state" id="emptyState" hidden>
+        <h3>No matching books found</h3>
+        <p>Try clearing your search term or switching back to all categories.</p>
+        <button class="btn btn-primary" onclick="resetAllFilters()">Show All Books</button>
+      </div>
+    </div>
+  </section>
+
+  <!-- Popular Authors Section -->
+  <section class="section" id="authors">
+    <div class="container">
+      <div class="section-header">
+        <div>
+          <h2>Popular Authors</h2>
+          <p>Discover iconic storytellers from India and around the world.</p>
+        </div>
+      </div>
+
+      <div class="authors-grid" id="authorsGrid">
+        <!-- Populated dynamically by JS -->
+      </div>
+    </div>
+  </section>
+
+  <!-- Newsletter Section -->
+  <section class="newsletter">
+    <div class="container newsletter-box">
+      <div>
+        <h2>Get New Arrivals &amp; Secret Coupons</h2>
+        <p>Join 12,000+ readers receiving weekly recommendations and flash sale alerts.</p>
+      </div>
+      <form id="newsletterForm" class="newsletter-form">
+        <input type="email" id="newsletterEmail" placeholder="Enter your email address" required />
+        <button type="submit" class="btn btn-primary">Subscribe</button>
+      </form>
+    </div>
+  </section>
+
+  <!-- Footer -->
+  <footer class="footer">
+    <div class="container footer-grid">
+      <div>
+        <a href="#home" class="logo footer-logo">
+          <span class="logo-icon">📚</span>
+          <span class="logo-text">Chapter<span>One</span></span>
+        </a>
+        <p class="footer-desc">
+          Your one-stop online bookstore for Action, Anime &amp; Manga, Romance, Sci-Fi, Mystery, and Self-Help titles.
+        </p>
+      </div>
+      <div>
+        <h4>Quick Links</h4>
+        <ul>
+          <li><a href="#categories">Book Categories</a></li>
+          <li><a href="#featured">Featured Books</a></li>
+          <li><a href="#offers">Special Offers</a></li>
+          <li><a href="#authors">Featured Authors</a></li>
+        </ul>
+      </div>
+      <div>
+        <h4>Customer Care</h4>
+        <ul>
+          <li>Free Delivery above ₹499</li>
+          <li>7-Day Easy Replacement</li>
+          <li>UPI / Cards / Cash on Delivery</li>
+          <li>Support: help@chapterone.in</li>
+        </ul>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <p>&copy; 2026 ChapterOne Online Bookstore. Built for Academic Web Project.</p>
+    </div>
+  </footer>
+
+  <!-- Shopping Cart Slide-Over Drawer -->
+  <div class="drawer-overlay" id="cartOverlay" hidden></div>
+  <aside class="cart-drawer" id="cartDrawer" aria-label="Shopping Cart">
+    <div class="drawer-header">
+      <h3>Your Shopping Cart</h3>
+      <button class="close-btn" id="closeCartBtn" aria-label="Close Cart">&times;</button>
+    </div>
+
+    <div class="cart-items" id="cartItems">
+      <!-- Populated dynamically by JS -->
+    </div>
+
+    <div class="cart-footer">
+      <!-- Coupon Code Box -->
+      <div class="coupon-box">
+        <input type="text" id="couponInput" placeholder="Coupon (READ20 or STUDENT15)" />
+        <button class="btn btn-outline btn-sm" id="applyCouponBtn">Apply</button>
+      </div>
+      <p class="coupon-msg" id="couponMsg"></p>
+
+      <!-- Summary -->
+      <div class="cart-summary">
+        <div class="summary-row">
+          <span>Subtotal</span>
+          <span id="cartSubtotal">₹0</span>
+        </div>
+        <div class="summary-row discount-row" id="discountRow" hidden>
+          <span id="discountLabel">Coupon Discount</span>
+          <span id="cartDiscount">-₹0</span>
+        </div>
+        <div class="summary-row">
+          <span>Delivery</span>
+          <span id="cartDelivery">Free</span>
+        </div>
+        <div class="summary-row total-row">
+          <span>Total Payable</span>
+          <span id="cartTotal">₹0</span>
+        </div>
+      </div>
+
+      <button class="btn btn-primary btn-full" id="checkoutBtn" disabled>Proceed to Checkout</button>
+    </div>
+  </aside>
+
+  <!-- Book Quick-View Modal -->
+  <div class="modal-overlay" id="quickViewModal" hidden>
+    <div class="modal-card">
+      <button class="close-btn modal-close" id="closeQuickView" aria-label="Close Preview">&times;</button>
+      <div class="quickview-body" id="quickViewBody">
+        <!-- Populated dynamically by JS -->
+      </div>
+    </div>
+  </div>
+
+  <!-- Checkout Modal -->
+  <div class="modal-overlay" id="checkoutModal" hidden>
+    <div class="modal-card checkout-card">
+      <button class="close-btn modal-close" id="closeCheckout" aria-label="Close Checkout">&times;</button>
+
+      <div id="checkoutFormWrapper">
+        <h3>Complete Your Order</h3>
+        <p class="modal-sub">Enter delivery details to place your order.</p>
+        <form id="checkoutForm" class="checkout-form">
+          <label>
+            Full Name
+            <input type="text" id="custName" required placeholder="e.g., Arjun Kumar" />
+          </label>
+          <label>
+            Phone Number
+            <input type="tel" id="custPhone" required pattern="[0-9]{10}" placeholder="10-digit mobile number" />
+          </label>
+          <label>
+            Delivery Address
+            <textarea id="custAddress" rows="2" required placeholder="House No, Street, City, PIN Code"></textarea>
+          </label>
+          <label>
+            Payment Method
+            <select id="custPayment">
+              <option value="UPI (GPay / PhonePe)">UPI (GPay / PhonePe)</option>
+              <option value="Debit / Credit Card">Debit / Credit Card</option>
+              <option value="Cash on Delivery">Cash on Delivery</option>
+            </select>
+          </label>
+          <div class="checkout-total-bar">
+            <span>Final Amount:</span>
+            <strong id="checkoutFinalAmount">₹0</strong>
+          </div>
+          <button type="submit" class="btn btn-primary btn-full">Place Order</button>
+        </form>
+      </div>
+
+      <!-- Order Success View -->
+      <div id="orderSuccessView" class="order-success" hidden>
+        <div class="success-icon">✅</div>
+        <h3>Order Placed Successfully!</h3>
+        <p id="orderSuccessText"></p>
+        <p class="order-id-pill">Order ID: <strong id="orderIdDisplay"></strong></p>
+        <button class="btn btn-primary" id="continueShoppingBtn">Continue Shopping</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Toast Notification -->
+  <div class="toast" id="toast" role="status" aria-live="polite"></div>
+
+  <!-- Interactive JavaScript (Zero External Dependencies) -->
+  <script>
+    // 1. Bookstore Dataset (Covers Action, Anime & Manga, Romance, Sci-Fi & Fantasy, Mystery, Self-Help)
+    const books = [
+      {
+        id: 1,
+        title: "Demon Slayer: Vol. 1",
+        author: "Koyoharu Gotouge",
+        category: "Anime & Manga",
+        price: 499,
+        mrp: 699,
+        rating: 4.9,
+        pages: 192,
+        featured: true,
+        badge: "Bestseller",
+        coverBg: "linear-gradient(135deg, #7f1d1d, #dc2626)",
+        spine: "#450a0a",
+        desc: "After a demon attack leaves his family slain and his sister Nezuko transformed, Tanjiro Kamado sets out to become a Demon Slayer and find a cure."
+      },
+      {
+        id: 2,
+        title: "Solo Leveling: Vol. 1",
+        author: "Chugong",
+        category: "Anime & Manga",
+        price: 649,
+        mrp: 899,
+        rating: 4.9,
+        pages: 320,
+        featured: true,
+        badge: "Trending",
+        coverBg: "linear-gradient(135deg, #1e1b4b, #4f46e5)",
+        spine: "#0f0d2e",
+        desc: "Known as the weakest hunter of all mankind, Jinwoo Sung survives a deadly double dungeon and unlocks a mysterious system that lets him level up alone."
+      },
+      {
+        id: 3,
+        title: "Jujutsu Kaisen: Vol. 1",
+        author: "Gege Akutami",
+        category: "Anime & Manga",
+        price: 449,
+        mrp: 599,
+        rating: 4.8,
+        pages: 192,
+        featured: false,
+        badge: "25% Off",
+        coverBg: "linear-gradient(135deg, #0f172a, #0284c7)",
+        spine: "#020617",
+        desc: "High schooler Yuji Itadori swallows a cursed talisman to save his friends, becoming the host of the King of Curses and entering Tokyo Jujutsu High."
+      },
+      {
+        id: 4,
+        title: "The Immortals of Meluha",
+        author: "Amish Tripathi",
+        category: "Action",
+        price: 299,
+        mrp: 450,
+        rating: 4.7,
+        pages: 415,
+        featured: true,
+        badge: "Indian Classic",
+        coverBg: "linear-gradient(135deg, #7c2d12, #ea580c)",
+        spine: "#431407",
+        desc: "In 1900 BC, a Tibetan tribal warrior named Shiva arrives in the near-perfect empire of Meluha, where legend says he is destined to destroy evil."
+      },
+      {
+        id: 5,
+        title: "The Bourne Identity",
+        author: "Robert Ludlum",
+        category: "Action",
+        price: 349,
+        mrp: 499,
+        rating: 4.6,
+        pages: 566,
+        featured: false,
+        badge: "Action Hit",
+        coverBg: "linear-gradient(135deg, #1f2937, #4b5563)",
+        spine: "#111827",
+        desc: "Pulled from the Mediterranean Sea with bullets in his back and zero memory, a man races across Europe to uncover his true identity while assassins close in."
+      },
+      {
+        id: 6,
+        title: "The Hunger Games",
+        author: "Suzanne Collins",
+        category: "Action",
+        price: 379,
+        mrp: 550,
+        rating: 4.8,
+        pages: 384,
+        featured: false,
+        badge: "Top Pick",
+        coverBg: "linear-gradient(135deg, #78350f, #d97706)",
+        spine: "#451a03",
+        desc: "Katniss Everdeen volunteers to take her younger sister's place in a televised fight to the death inside a ruthless survival arena."
+      },
+      {
+        id: 7,
+        title: "It Ends With Us",
+        author: "Colleen Hoover",
+        category: "Romance",
+        price: 279,
+        mrp: 499,
+        rating: 4.7,
+        pages: 384,
+        featured: true,
+        badge: "44% Off",
+        coverBg: "linear-gradient(135deg, #831843, #ec4899)",
+        spine: "#500724",
+        desc: "Lily Bloom moves to Boston to open her own flower shop and meets charming neurosurgeon Ryle, only to face a heartbreaking choice when her first love returns."
+      },
+      {
+        id: 8,
+        title: "I Too Had a Love Story",
+        author: "Ravinder Singh",
+        category: "Romance",
+        price: 199,
+        mrp: 299,
+        rating: 4.6,
+        pages: 218,
+        featured: false,
+        badge: "Reader Choice",
+        coverBg: "linear-gradient(135deg, #9f1239, #f43f5e)",
+        spine: "#4c0519",
+        desc: "A heartfelt autobiographical Indian romance about Ravin and Khushi, whose chance online meeting blossoms into a deeply moving bond."
+      },
+      {
+        id: 9,
+        title: "Pride and Prejudice",
+        author: "Jane Austen",
+        category: "Romance",
+        price: 179,
+        mrp: 299,
+        rating: 4.8,
+        pages: 328,
+        featured: false,
+        badge: "Evergreen",
+        coverBg: "linear-gradient(135deg, #581c87, #a855f7)",
+        spine: "#3b0764",
+        desc: "Sparkling wit and unforgettable chemistry unfold as independent Elizabeth Bennet clashes with the proud yet honourable Mr. Darcy."
+      },
+      {
+        id: 10,
+        title: "Dune",
+        author: "Frank Herbert",
+        category: "Sci-Fi & Fantasy",
+        price: 499,
+        mrp: 699,
+        rating: 4.9,
+        pages: 688,
+        featured: true,
+        badge: "Sci-Fi Epic",
+        coverBg: "linear-gradient(135deg, #92400e, #f59e0b)",
+        spine: "#451a03",
+        desc: "On the desert planet Arrakis, young Paul Atreides must survive political betrayal and giant sandworms to claim his destiny among the Fremen."
+      },
+      {
+        id: 11,
+        title: "Project Hail Mary",
+        author: "Andy Weir",
+        category: "Sci-Fi & Fantasy",
+        price: 459,
+        mrp: 650,
+        rating: 4.9,
+        pages: 496,
+        featured: false,
+        badge: "Award Winner",
+        coverBg: "linear-gradient(135deg, #0c4a6e, #06b6d4)",
+        spine: "#082f49",
+        desc: "A lone astronaut wakes up millions of miles from Earth with amnesia and must use science—and an unexpected alliance—to save humanity from extinction."
+      },
+      {
+        id: 12,
+        title: "The Silent Patient",
+        author: "Alex Michaelides",
+        category: "Mystery & Thriller",
+        price: 289,
+        mrp: 499,
+        rating: 4.7,
+        pages: 336,
+        featured: true,
+        badge: "Page-Turner",
+        coverBg: "linear-gradient(135deg, #134e4a, #0d9488)",
+        spine: "#042f2e",
+        desc: "Famous painter Alicia Berenson shoots her husband and never speaks another word. Psychotherapist Theo Faber is determined to unlock her secret."
+      },
+      {
+        id: 13,
+        title: "Murder on the Orient Express",
+        author: "Agatha Christie",
+        category: "Mystery & Thriller",
+        price: 249,
+        mrp: 399,
+        rating: 4.8,
+        pages: 274,
+        featured: false,
+        badge: "Classic Mystery",
+        coverBg: "linear-gradient(135deg, #1e3a8a, #3b82f6)",
+        spine: "#172554",
+        desc: "When a lavish European train gets stranded in snow and a passenger is found murdered, detective Hercule Poirot must identify the killer among twelve suspects."
+      },
+      {
+        id: 14,
+        title: "Atomic Habits",
+        author: "James Clear",
+        category: "Self-Help",
+        price: 449,
+        mrp: 799,
+        rating: 4.9,
+        pages: 320,
+        featured: true,
+        badge: "44% Off",
+        coverBg: "linear-gradient(135deg, #065f46, #10b981)",
+        spine: "#022c22",
+        desc: "A practical, proven blueprint for building good habits, breaking bad ones, and mastering the tiny 1% daily improvements that lead to remarkable results."
+      },
+      {
+        id: 15,
+        title: "The Psychology of Money",
+        author: "Morgan Housel",
+        category: "Self-Help",
+        price: 299,
+        mrp: 499,
+        rating: 4.8,
+        pages: 256,
+        featured: false,
+        badge: "Top Seller",
+        coverBg: "linear-gradient(135deg, #365314, #65a30d)",
+        spine: "#1a2e05",
+        desc: "Timeless lessons on wealth, greed, and happiness showing how doing well with money has far more to do with behaviour than spreadsheets."
+      }
+    ];
+
+    const categoryMeta = [
+      { name: "All", icon: "✨", desc: "Complete catalogue" },
+      { name: "Anime & Manga", icon: "⚔️", desc: "Shonen & Webtoon hits" },
+      { name: "Action", icon: "🔥", desc: "High-stakes adventures" },
+      { name: "Romance", icon: "💖", desc: "Heartfelt love stories" },
+      { name: "Sci-Fi & Fantasy", icon: "🚀", desc: "Worlds beyond imagination" },
+      { name: "Mystery & Thriller", icon: "🕵️", desc: "Twists & whodunits" },
+      { name: "Self-Help", icon: "💡", desc: "Habits, mindset & finance" }
+    ];
+
+    const featuredAuthors = [
+      { name: "Koyoharu Gotouge", initials: "KG", genre: "Anime & Manga", color: "#dc2626" },
+      { name: "Amish Tripathi", initials: "AT", genre: "Mythological Action", color: "#ea580c" },
+      { name: "James Clear", initials: "JC", genre: "Self-Help & Productivity", color: "#059669" },
+      { name: "Agatha Christie", initials: "AC", genre: "Mystery & Crime", color: "#2563eb" },
+      { name: "Ravinder Singh", initials: "RS", genre: "Indian Romance", color: "#e11d48" },
+      { name: "Frank Herbert", initials: "FH", genre: "Sci-Fi & Fantasy", color: "#d97706" }
+    ];
+
+    const validCoupons = {
+      READ20: { percent: 20, label: "READ20 (20% OFF)" },
+      STUDENT15: { percent: 15, label: "STUDENT15 (15% OFF)" }
+    };
+
+    // 2. App State with Safe LocalStorage Helper
+    function safeGetStorage(key, fallback) {
+      try {
+        const val = localStorage.getItem(key);
+        return val ? JSON.parse(val) : fallback;
+      } catch (e) {
+        return fallback;
+      }
+    }
+
+    function safeSetStorage(key, value) {
+      try {
+        localStorage.setItem(key, JSON.stringify(value));
+      } catch (e) {
+        // Ignore storage errors in restricted environments
+      }
+    }
+
+    let cart = safeGetStorage("chapterone_cart", []);
+    let wishlist = safeGetStorage("chapterone_wishlist", []);
+    let activeCategory = "All";
+    let wishlistOnly = false;
+    let appliedCoupon = null;
+
+    // 3. DOM Elements
+    const categoryCardsEl = document.getElementById("categoryCards");
+    const filterPillsEl = document.getElementById("filterPills");
+    const featuredGridEl = document.getElementById("featuredGrid");
+    const booksGridEl = document.getElementById("booksGrid");
+    const authorsGridEl = document.getElementById("authorsGrid");
+    const emptyStateEl = document.getElementById("emptyState");
+    const shopSubtitleEl = document.getElementById("shopSubtitle");
+    const searchInput = document.getElementById("searchInput");
+    const clearSearchBtn = document.getElementById("clearSearchBtn");
+    const sortSelect = document.getElementById("sortSelect");
+    const wishlistFilterBtn = document.getElementById("wishlistFilterBtn");
+    const wishlistCountEl = document.getElementById("wishlistCount");
+    const cartCountEl = document.getElementById("cartCount");
+
+    // Cart Drawer Elements
+    const cartDrawer = document.getElementById("cartDrawer");
+    const cartOverlay = document.getElementById("cartOverlay");
+    const cartItemsEl = document.getElementById("cartItems");
+    const cartSubtotalEl = document.getElementById("cartSubtotal");
+    const discountRowEl = document.getElementById("discountRow");
+    const discountLabelEl = document.getElementById("discountLabel");
+    const cartDiscountEl = document.getElementById("cartDiscount");
+    const cartDeliveryEl = document.getElementById("cartDelivery");
+    const cartTotalEl = document.getElementById("cartTotal");
+    const couponInput = document.getElementById("couponInput");
+    const couponMsg = document.getElementById("couponMsg");
+    const checkoutBtn = document.getElementById("checkoutBtn");
+
+    // Modals & Toast
+    const quickViewModal = document.getElementById("quickViewModal");
+    const quickViewBody = document.getElementById("quickViewBody");
+    const checkoutModal = document.getElementById("checkoutModal");
+    const checkoutForm = document.getElementById("checkoutForm");
+    const checkoutFormWrapper = document.getElementById("checkoutFormWrapper");
+    const orderSuccessView = document.getElementById("orderSuccessView");
+    const checkoutFinalAmount = document.getElementById("checkoutFinalAmount");
+    const toastEl = document.getElementById("toast");
+    let toastTimer = null;
+
+    // 4. Utility Functions
+    function getDiscountPercent(price, mrp) {
+      return Math.round(((mrp - price) / mrp) * 100);
+    }
+
+    function showToast(message) {
+      toastEl.textContent = message;
+      toastEl.classList.add("show");
+      clearTimeout(toastTimer);
+      toastTimer = setTimeout(() => {
+        toastEl.classList.remove("show");
+      }, 2600);
+    }
+
+    function createBookCardHTML(book) {
+      const isWished = wishlist.includes(book.id);
+      const offPercent = getDiscountPercent(book.price, book.mrp);
+
+      return `
+        <article class="book-card">
+          <div class="book-card-top">
+            <span class="book-badge">${book.badge}</span>
+            <button
+              class="wish-btn ${isWished ? "active" : ""}"
+              onclick="toggleWishlist(${book.id})"
+              title="${isWished ? "Remove from Wishlist" : "Add to Wishlist"}"
+              aria-label="Toggle Wishlist"
+            >
+              ${isWished ? "❤️" : "🤍"}
+            </button>
+
+            <div
+              class="book-cover-mini"
+              style="--cover-bg: ${book.coverBg}; --spine-color: ${book.spine};"
+              onclick="openQuickView(${book.id})"
+              title="Click for Quick View"
+            >
+              <span class="mini-genre">${book.category}</span>
+              <h4>${book.title}</h4>
+              <span class="mini-author">${book.author}</span>
+            </div>
+          </div>
+
+          <div class="book-card-body">
+            <div class="book-meta">
+              <span class="genre-tag">${book.category}</span>
+              <span class="rating">★ ${book.rating}</span>
+            </div>
+            <h3 class="book-title" onclick="openQuickView(${book.id})">${book.title}</h3>
+            <p class="book-author">by ${book.author}</p>
+
+            <div class="price-row">
+              <span class="price-now">₹${book.price}</span>
+              <span class="price-old">₹${book.mrp}</span>
+              <span class="discount-pill">${offPercent}% OFF</span>
+            </div>
+
+            <div class="card-actions">
+              <button class="btn btn-primary btn-sm" onclick="addToCart(${book.id})">Add to Cart</button>
+              <button class="btn btn-outline btn-sm" onclick="openQuickView(${book.id})">Details</button>
+            </div>
+          </div>
+        </article>
+      `;
+    }
+
+    // 5. Render Functions
+    function renderCategories() {
+      categoryCardsEl.innerHTML = categoryMeta
+        .filter((cat) => cat.name !== "All")
+        .map((cat) => {
+          const count = books.filter((b) => b.category === cat.name).length;
+          return `
+            <button class="category-card ${activeCategory === cat.name ? "active" : ""}" onclick="filterByCategory('${cat.name}', true)">
+              <span class="cat-icon">${cat.icon}</span>
+              <h3>${cat.name}</h3>
+              <p>${cat.desc}</p>
+              <span class="cat-count">${count} Books</span>
+            </button>
+          `;
+        })
+        .join("");
+
+      filterPillsEl.innerHTML = categoryMeta
+        .map((cat) => `
+          <button
+            class="pill ${activeCategory === cat.name && !wishlistOnly ? "active" : ""}"
+            onclick="filterByCategory('${cat.name}', false)"
+          >
+            ${cat.icon} ${cat.name}
+          </button>
+        `)
+        .join("");
+    }
+
+    function renderFeatured() {
+      const featuredBooks = books.filter((b) => b.featured).slice(0, 4);
+      featuredGridEl.innerHTML = featuredBooks.map(createBookCardHTML).join("");
+    }
+
+    function renderBooks() {
+      const query = searchInput.value.trim().toLowerCase();
+      const sortBy = sortSelect.value;
+
+      let filtered = books.filter((book) => {
+        const matchesCategory = activeCategory === "All" || book.category === activeCategory;
+        const matchesWishlist = !wishlistOnly || wishlist.includes(book.id);
+        const matchesSearch =
+          !query ||
+          book.title.toLowerCase().includes(query) ||
+          book.author.toLowerCase().includes(query) ||
+          book.category.toLowerCase().includes(query);
+
+        return matchesCategory && matchesWishlist && matchesSearch;
+      });
+
+      if (sortBy === "price-low") {
+        filtered.sort((a, b) => a.price - b.price);
+      } else if (sortBy === "price-high") {
+        filtered.sort((a, b) => b.price - a.price);
+      } else if (sortBy === "rating") {
+        filtered.sort((a, b) => b.rating - a.rating);
+      }
+
+      // Update Subtitle
+      if (wishlistOnly) {
+        shopSubtitleEl.textContent = `Showing your saved Wishlist (${filtered.length} books).`;
+      } else if (query) {
+        shopSubtitleEl.textContent = `Search results for "${searchInput.value.trim()}" (${filtered.length} found).`;
+      } else if (activeCategory !== "All") {
+        shopSubtitleEl.textContent = `Showing ${filtered.length} books in ${activeCategory}.`;
+      } else {
+        shopSubtitleEl.textContent = `Showing all ${filtered.length} books across every genre.`;
+      }
+
+      if (filtered.length === 0) {
+        booksGridEl.innerHTML = "";
+        emptyStateEl.hidden = false;
+      } else {
+        emptyStateEl.hidden = true;
+        booksGridEl.innerHTML = filtered.map(createBookCardHTML).join("");
+      }
+    }
+
+    function renderAuthors() {
+      authorsGridEl.innerHTML = featuredAuthors
+        .map((author) => `
+          <div class="author-card">
+            <div class="author-avatar" style="background: ${author.color};">${author.initials}</div>
+            <h3>${author.name}</h3>
+            <p>${author.genre}</p>
+            <button class="btn btn-outline btn-sm" onclick="searchByAuthor('${author.name}')">View Books</button>
+          </div>
+        `)
+        .join("");
+    }
+
+    // 6. Filter & Search Handlers
+    function filterByCategory(category, shouldScroll) {
+      activeCategory = category;
+      wishlistOnly = false;
+      wishlistFilterBtn.classList.remove("active-filter");
+      renderCategories();
+      renderBooks();
+      if (shouldScroll) {
+        document.getElementById("shop").scrollIntoView({ behavior: "smooth" });
+      }
+    }
+
+    function searchByAuthor(authorName) {
+      activeCategory = "All";
+      wishlistOnly = false;
+      searchInput.value = authorName;
+      clearSearchBtn.hidden = false;
+      renderCategories();
+      renderBooks();
+      document.getElementById("shop").scrollIntoView({ behavior: "smooth" });
+    }
+
+    function resetAllFilters() {
+      activeCategory = "All";
+      wishlistOnly = false;
+      searchInput.value = "";
+      clearSearchBtn.hidden = true;
+      sortSelect.value = "default";
+      wishlistFilterBtn.classList.remove("active-filter");
+      renderCategories();
+      renderBooks();
+    }
+
+    searchInput.addEventListener("input", () => {
+      clearSearchBtn.hidden = searchInput.value.trim() === "";
+      renderBooks();
+    });
+
+    clearSearchBtn.addEventListener("click", () => {
+      searchInput.value = "";
+      clearSearchBtn.hidden = true;
+      renderBooks();
+    });
+
+    sortSelect.addEventListener("change", renderBooks);
+
+    // 7. Wishlist Functions
+    function toggleWishlist(bookId) {
+      const index = wishlist.indexOf(bookId);
+      const book = books.find((b) => b.id === bookId);
+
+      if (index === -1) {
+        wishlist.push(bookId);
+        showToast(`Saved "${book.title}" to Wishlist`);
+      } else {
+        wishlist.splice(index, 1);
+        showToast(`Removed "${book.title}" from Wishlist`);
+      }
+
+      safeSetStorage("chapterone_wishlist", wishlist);
+      updateWishlistBadge();
+      renderFeatured();
+      renderBooks();
+    }
+
+    function updateWishlistBadge() {
+      wishlistCountEl.textContent = wishlist.length;
+    }
+
+    wishlistFilterBtn.addEventListener("click", () => {
+      wishlistOnly = !wishlistOnly;
+      wishlistFilterBtn.classList.toggle("active-filter", wishlistOnly);
+      if (wishlistOnly) {
+        document.getElementById("shop").scrollIntoView({ behavior: "smooth" });
+      }
+      renderCategories();
+      renderBooks();
+    });
+
+    // 8. Shopping Cart Functions
+    function addToCart(bookId) {
+      const existing = cart.find((item) => item.id === bookId);
+      const book = books.find((b) => b.id === bookId);
+
+      if (existing) {
+        existing.qty += 1;
+      } else {
+        cart.push({ id: bookId, qty: 1 });
+      }
+
+      safeSetStorage("chapterone_cart", cart);
+      updateCartUI();
+      showToast(`Added "${book.title}" to Cart`);
+    }
+
+    function changeQty(bookId, delta) {
+      const item = cart.find((i) => i.id === bookId);
+      if (!item) return;
+
+      item.qty += delta;
+      if (item.qty <= 0) {
+        cart = cart.filter((i) => i.id !== bookId);
+      }
+
+      safeSetStorage("chapterone_cart", cart);
+      updateCartUI();
+    }
+
+    function removeFromCart(bookId) {
+      cart = cart.filter((i) => i.id !== bookId);
+      safeSetStorage("chapterone_cart", cart);
+      updateCartUI();
+    }
+
+    function calculateTotals() {
+      let subtotal = 0;
+      cart.forEach((item) => {
+        const book = books.find((b) => b.id === item.id);
+        if (book) subtotal += book.price * item.qty;
+      });
+
+      const discount = appliedCoupon ? Math.round((subtotal * appliedCoupon.percent) / 100) : 0;
+      const afterDiscount = subtotal - discount;
+      const delivery = subtotal === 0 ? 0 : afterDiscount >= 499 ? 0 : 49;
+      const total = afterDiscount + delivery;
+
+      return { subtotal, discount, delivery, total };
+    }
+
+    function updateCartUI() {
+      const totalItems = cart.reduce((sum, item) => sum + item.qty, 0);
+      cartCountEl.textContent = totalItems;
+
+      if (cart.length === 0) {
+        cartItemsEl.innerHTML = `
+          <div class="cart-empty">
+            <p>Your cart is empty.</p>
+            <span>Add books from the catalogue to get started!</span>
+          </div>
+        `;
+        checkoutBtn.disabled = true;
+      } else {
+        checkoutBtn.disabled = false;
+        cartItemsEl.innerHTML = cart
+          .map((item) => {
+            const book = books.find((b) => b.id === item.id);
+            if (!book) return "";
+            return `
+              <div class="cart-item">
+                <div class="cart-thumb" style="background: ${book.coverBg};">
+                  <span>${book.title.slice(0, 2).toUpperCase()}</span>
+                </div>
+                <div class="cart-item-info">
+                  <h4>${book.title}</h4>
+                  <p>₹${book.price} each</p>
+                  <div class="qty-controls">
+                    <button onclick="changeQty(${book.id}, -1)" aria-label="Decrease quantity">−</button>
+                    <span>${item.qty}</span>
+                    <button onclick="changeQty(${book.id}, 1)" aria-label="Increase quantity">+</button>
+                    <button class="remove-link" onclick="removeFromCart(${book.id})">Remove</button>
+                  </div>
+                </div>
+                <strong class="cart-item-total">₹${book.price * item.qty}</strong>
+              </div>
+            `;
+          })
+          .join("");
+      }
+
+      const { subtotal, discount, delivery, total } = calculateTotals();
+      cartSubtotalEl.textContent = `₹${subtotal}`;
+
+      if (appliedCoupon && discount > 0) {
+        discountRowEl.hidden = false;
+        discountLabelEl.textContent = `Coupon (${appliedCoupon.label})`;
+        cartDiscountEl.textContent = `-₹${discount}`;
+      } else {
+        discountRowEl.hidden = true;
+      }
+
+      cartDeliveryEl.textContent = delivery === 0 ? "Free" : `₹${delivery}`;
+      cartTotalEl.textContent = `₹${total}`;
+    }
+
+    function openCart() {
+      cartDrawer.classList.add("open");
+      cartOverlay.hidden = false;
+    }
+
+    function closeCart() {
+      cartDrawer.classList.remove("open");
+      cartOverlay.hidden = true;
+    }
+
+    document.getElementById("openCartBtn").addEventListener("click", openCart);
+    document.getElementById("closeCartBtn").addEventListener("click", closeCart);
+    cartOverlay.addEventListener("click", closeCart);
+
+    // 9. Coupon Code Logic
+    function applyCouponCode(codeText) {
+      const code = codeText.trim().toUpperCase();
+      if (!code) {
+        couponMsg.textContent = "Please enter a coupon code.";
+        couponMsg.className = "coupon-msg error";
+        return;
+      }
+
+      if (validCoupons[code]) {
+        appliedCoupon = validCoupons[code];
+        couponInput.value = code;
+        couponMsg.textContent = `Coupon ${code} applied! (${appliedCoupon.percent}% discount)`;
+        couponMsg.className = "coupon-msg success";
+        updateCartUI();
+        showToast(`Coupon ${code} applied!`);
+      } else {
+        appliedCoupon = null;
+        couponMsg.textContent = "Invalid code. Try READ20 or STUDENT15.";
+        couponMsg.className = "coupon-msg error";
+        updateCartUI();
+      }
+    }
+
+    function applyCouponQuick(code) {
+      applyCouponCode(code);
+      openCart();
+    }
+
+    document.getElementById("applyCouponBtn").addEventListener("click", () => {
+      applyCouponCode(couponInput.value);
+    });
+
+    // 10. Quick-View Modal
+    function openQuickView(bookId) {
+      const book = books.find((b) => b.id === bookId);
+      if (!book) return;
+      const offPercent = getDiscountPercent(book.price, book.mrp);
+
+      quickViewBody.innerHTML = `
+        <div class="qv-cover-wrap">
+          <div class="book-cover-3d" style="--cover-bg: ${book.coverBg}; --spine-color: ${book.spine};">
+            <span class="cover-genre">${book.category}</span>
+            <h3>${book.title}</h3>
+            <p>${book.pages} Pages</p>
+            <span class="cover-author">${book.author}</span>
+          </div>
+        </div>
+        <div class="qv-details">
+          <span class="genre-tag">${book.category}</span>
+          <h2>${book.title}</h2>
+          <p class="qv-author">by <strong>${book.author}</strong> • ★ ${book.rating} • ${book.pages} pages (Paperback)</p>
+          <p class="qv-desc">${book.desc}</p>
+          <div class="price-row qv-price">
+            <span class="price-now">₹${book.price}</span>
+            <span class="price-old">₹${book.mrp}</span>
+            <span class="discount-pill">${offPercent}% OFF</span>
+          </div>
+          <div class="qv-actions">
+            <button class="btn btn-primary" onclick="addToCart(${book.id}); closeQuickViewModal();">Add to Cart</button>
+            <button class="btn btn-outline" onclick="toggleWishlist(${book.id})">Save to Wishlist</button>
+          </div>
+        </div>
+      `;
+
+      quickViewModal.hidden = false;
+    }
+
+    function closeQuickViewModal() {
+      quickViewModal.hidden = true;
+    }
+
+    document.getElementById("closeQuickView").addEventListener("click", closeQuickViewModal);
+    quickViewModal.addEventListener("click", (e) => {
+      if (e.target === quickViewModal) closeQuickViewModal();
+    });
+
+    // 11. Checkout Modal
+    checkoutBtn.addEventListener("click", () => {
+      const { total } = calculateTotals();
+      checkoutFinalAmount.textContent = `₹${total}`;
+      checkoutFormWrapper.hidden = false;
+      orderSuccessView.hidden = true;
+      closeCart();
+      checkoutModal.hidden = false;
+    });
+
+    function closeCheckoutModal() {
+      checkoutModal.hidden = true;
+    }
+
+    document.getElementById("closeCheckout").addEventListener("click", closeCheckoutModal);
+    document.getElementById("continueShoppingBtn").addEventListener("click", closeCheckoutModal);
+    checkoutModal.addEventListener("click", (e) => {
+      if (e.target === checkoutModal) closeCheckoutModal();
+    });
+
+    checkoutForm.addEventListener("submit", (e) => {
+      e.preventDefault();
+      const name = document.getElementById("custName").value.trim();
+      const payment = document.getElementById("custPayment").value;
+      const { total } = calculateTotals();
+      const orderId = "CH1-" + Math.floor(100000 + Math.random() * 900000);
+
+      document.getElementById("orderIdDisplay").textContent = orderId;
+      document.getElementById("orderSuccessText").textContent =
+        `Thank you, ${name}! Your order of ₹${total} via ${payment} has been confirmed and will arrive in 2–4 business days.`;
+
+      cart = [];
+      appliedCoupon = null;
+      couponInput.value = "";
+      couponMsg.textContent = "";
+      safeSetStorage("chapterone_cart", cart);
+      updateCartUI();
+      checkoutForm.reset();
+
+      checkoutFormWrapper.hidden = true;
+      orderSuccessView.hidden = false;
+    });
+
+    // 12. Dark / Light Theme Toggle
+    const themeToggleBtn = document.getElementById("themeToggle");
+    let currentTheme = safeGetStorage("chapterone_theme", "light");
+
+    function applyTheme(theme) {
+      document.documentElement.setAttribute("data-theme", theme);
+      themeToggleBtn.textContent = theme === "dark" ? "☀️" : "🌙";
+      safeSetStorage("chapterone_theme", theme);
+    }
+
+    themeToggleBtn.addEventListener("click", () => {
+      currentTheme = currentTheme === "dark" ? "light" : "dark";
+      applyTheme(currentTheme);
+    });
+
+    // 13. Newsletter Form
+    document.getElementById("newsletterForm").addEventListener("submit", (e) => {
+      e.preventDefault();
+      const emailInput = document.getElementById("newsletterEmail");
+      showToast(`Subscribed ${emailInput.value} for bookstore deals!`);
+      emailInput.value = "";
+    });
+
+    // 14. Initialize App
+    applyTheme(currentTheme);
+    renderCategories();
+    renderFeatured();
+    renderBooks();
+    renderAuthors();
+    updateWishlistBadge();
+    updateCartUI();
+  </script>
+</body>
+</html>
